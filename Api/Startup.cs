@@ -37,6 +37,7 @@ namespace Api
             services.AddAutoMapper(AssemblyUtil.GetCurrentAssemblies());
             services.AddSqlServerConnection(Configuration.GetSqlConnectionString());
             services.AddDependencyResolver();
+            services.AddMediatR();
             services.AddHttpClient();
             services.AddMediatR();
             services.AddHealthChecks();
