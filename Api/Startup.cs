@@ -30,12 +30,12 @@ namespace Api
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            
+
             });
             services.AddHttpContextAccessor();
             services.AddMvc(options => options.Filters.Add(new DefaultExceptionFilterAttribute()));
             services.AddAutoMapper(AssemblyUtil.GetCurrentAssemblies());
-            //services.AddSqlServerConnection(Configuration.GetSqlConnectionString());
+            services.AddSqlServerConnection(Configuration.GetSqlConnectionString());
             services.AddDependencyResolver();
             services.AddHttpClient();
             services.AddMediatR();
@@ -75,7 +75,7 @@ namespace Api
             {
                 c.SwaggerEndpoint("/CurrencyTolls/swagger/v1/swagger.json", "API CurrencyTolls");
             });
-                      
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

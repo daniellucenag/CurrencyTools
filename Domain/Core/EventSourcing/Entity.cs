@@ -8,9 +8,11 @@ namespace Domain.Core.EventSourcing
     {
         public virtual Guid Id { get; set; }
 
-        public virtual DateTimeOffset CreatedAt { get; set; }
+        public virtual DateTimeOffset CreatedAt { get; set; } = DateTime.Now;
 
         public virtual DateTimeOffset ChangedAt { get; set; }
+
+        public virtual DateTimeOffset DeletedAt { get; set; }
 
         [JsonIgnore]
         public EventCollection Events { get; } = new EventCollection();

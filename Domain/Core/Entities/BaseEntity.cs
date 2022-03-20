@@ -1,5 +1,6 @@
 ﻿using Domain.Core.EventSourcing;
 using Flunt.Notifications;
+using System;
 using System.Collections.Generic;
 
 namespace Domain.Core.Entities
@@ -8,6 +9,7 @@ namespace Domain.Core.Entities
     {
         protected BaseEntity()
         {
+            Id = Guid.NewGuid();
             entityNotifcations = new EntityNotifcations();
         }
         public virtual bool IsTransient() => Id == default;

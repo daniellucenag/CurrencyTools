@@ -7,37 +7,37 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Api.Logging
 {
-	[ExcludeFromCodeCoverage]
-	public static class LoggingSerilogExtension
-	{
-		private static readonly LogEventLevel _defaultLogLevel = LogEventLevel.Information;
-		private static readonly LoggingLevelSwitch _loggingLevel = new LoggingLevelSwitch();
+    [ExcludeFromCodeCoverage]
+    public static class LoggingSerilogExtension
+    {
+        private static readonly LogEventLevel _defaultLogLevel = LogEventLevel.Information;
+        private static readonly LoggingLevelSwitch _loggingLevel = new LoggingLevelSwitch();
 
-		private static void LoadLogLevel()
-		{
-			var configLogLevel = Environment.GetEnvironmentVariable("LOG_LEVEL") ?? _defaultLogLevel.ToString();
+        private static void LoadLogLevel()
+        {
+            var configLogLevel = Environment.GetEnvironmentVariable("LOG_LEVEL") ?? _defaultLogLevel.ToString();
 
-			bool parsed = Enum.TryParse(configLogLevel, true, out LogEventLevel logLevel);
-			_loggingLevel.MinimumLevel = parsed ? logLevel : _defaultLogLevel;
-		}
+            bool parsed = Enum.TryParse(configLogLevel, true, out LogEventLevel logLevel);
+            _loggingLevel.MinimumLevel = parsed ? logLevel : _defaultLogLevel;
+        }
 
-		private static void ConfigureLog()
-		{
-			Log.Logger = new LoggerConfiguration()
-				.Enrich.FromLogContext()
-				.Enrich.WithExceptionDetails()
-				.WriteTo.Async(c => c.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3} | {SourceContext} | {Properties} ] {Message}{NewLine}{Exception}"))
-				.MinimumLevel.ControlledBy(_loggingLevel)
-				.CreateLogger();
-		}
+        private static void ConfigureLog()
+        {
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .Enrich.WithExceptionDetails()
+                .WriteTo.Async(c => c.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3} | {SourceContext} | {Properties} ] {Message}{NewLine}{Exception}"))
+                .MinimumLevel.ControlledBy(_loggingLevel)
+                .CreateLogger();
+        }
 
-		/// <summary>
-		/// Add Logging to Serilog
-		/// </summary>
-		public static void AddLoggingSerilog()
-		{
-			LoadLogLevel();
-			ConfigureLog();
-		}
-	}
+        /// <summary>
+        /// Add Logging to Serilog
+        /// </summary>
+        public static void AddLoggingSerilog()
+        {
+            LoadLogLevel();
+            ConfigureLog();
+        }
+    }
 }

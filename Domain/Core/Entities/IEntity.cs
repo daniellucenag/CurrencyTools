@@ -9,5 +9,7 @@ namespace Domain.Core.Entities
         DateTimeOffset CreatedAt { get; set; }
 
         DateTimeOffset ChangedAt { get; set; }
+
+        DateTimeOffset DeletedAt { get; set; }
     }
 }
