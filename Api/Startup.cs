@@ -3,6 +3,7 @@ using Api.Middlewares;
 using CrossCutting.Assemblies;
 using CrossCutting.IoC;
 using CrossCutting.Util;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -35,7 +36,9 @@ namespace Api
             services.AddHttpContextAccessor();
             services.AddMvc(options => options.Filters.Add(new DefaultExceptionFilterAttribute()));
             services.AddAutoMapper(AssemblyUtil.GetCurrentAssemblies());
+
             services.AddSqlServerConnection(Configuration.GetSqlConnectionString());
+
             services.AddDependencyResolver();
             services.AddMediatR();
             services.AddHttpClient();
@@ -57,6 +60,21 @@ namespace Api
 
                 c.IncludeXmlComments(apiPath);
                 c.IncludeXmlComments(applicationPath);
+            });
+
+            services.AddMassTransit(ms =>
+            {
+                ms.AddDelayedMessageScheduler();
+                ms.SetKebabCaseEndpointNameFormatter();
+
+                ms.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(Configuration.GetRabbitMqConnectionString());
+
+                    cfg.UseDelayedMessageScheduler();
+                    cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter(false));
+                    cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
+                });
             });
         }
 

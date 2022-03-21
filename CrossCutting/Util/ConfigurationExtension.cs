@@ -11,5 +11,7 @@ namespace CrossCutting.Util
                                                                                           config.GetValue<string>("DB_CURRENCYTOOLS_DATABASE"),
                                                                                           config.GetValue<string>("DB_CURRENCYTOOLS_USER"),
                                                                                           config.GetValue<string>("DB_CURRENCYTOOLS_PASSWORD"));
+
+        public static string GetRabbitMqConnectionString(this IConfiguration config) => config.GetValue<string>("RABBIT_MQ_CONNECTION_STRING");
     }
 }
