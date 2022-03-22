@@ -1,5 +1,4 @@
 ﻿using Application;
-using Application.Currency;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

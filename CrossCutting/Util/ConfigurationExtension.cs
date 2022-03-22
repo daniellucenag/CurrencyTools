@@ -12,6 +12,11 @@ namespace CrossCutting.Util
                                                                                           config.GetValue<string>("DB_CURRENCYTOOLS_USER"),
                                                                                           config.GetValue<string>("DB_CURRENCYTOOLS_PASSWORD"));
 
-        public static string GetRabbitMqConnectionString(this IConfiguration config) => config.GetValue<string>("RABBITMQ_CONNECTION_STRING");
+        public static string GetRabbitMqHost(this IConfiguration config) => config.GetValue<string>("RABBITMQ_HOST");
+        public static int GetRabbitMqPort(this IConfiguration config) => config.GetValue<int>("RABBITMQ_PORT");
+        public static string GetRabbitMqVirtualHost(this IConfiguration config) => config.GetValue<string>("RABBITMQ_VHOST");
+        public static string GetRabbitMqUser(this IConfiguration config) => config.GetValue<string>("RABBITMQ_USER");
+        public static string GetRabbitMqPassword(this IConfiguration config) => config.GetValue<string>("RABBITMQ_PASSWORD");
+
     }
 }

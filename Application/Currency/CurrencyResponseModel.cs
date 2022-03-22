@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Application.Currency
+namespace Application
 {
     public class CurrencyResponseModel
     {

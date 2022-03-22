@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IPublisherApplication<in TRequest>
+    public interface IPublisherApplication<TRequest>
     {
-
-        Task Publish(TRequest request, CancellationToken ctx);
+        Task Publish(TRequest request, Guid requestId, CancellationToken ctx);
     }
 }

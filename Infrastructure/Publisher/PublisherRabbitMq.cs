@@ -1,8 +1,9 @@
-﻿using MassTransit;
+﻿using Application;
+using Application.Interfaces;
+using Domain.Core;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace Infrastructure.Publisher
 {
     public class PublisherRabbitMq<TRequest> : IPublisherApplication<TRequest>
-    {  
+    {
         private readonly ILogger<PublisherRabbitMq<TRequest>> logger;
         private readonly IPublishEndpoint publisher;
 
@@ -29,4 +30,6 @@ namespace Infrastructure.Publisher
             logger.LogInformation("----- Handled Publiser Id: {publisherId} - {RequestName})", requestId, requestTypeName);
         }
     }
+
+
 }

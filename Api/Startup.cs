@@ -24,10 +24,34 @@ namespace Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMassTransit(ms =>
+            {
+                ms.AddDelayedMessageScheduler();
+                ms.SetKebabCaseEndpointNameFormatter();
+
+                ms.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(Configuration.GetRabbitMqHost(), cfgr =>
+                    {
+                        cfgr.Username(Configuration.GetRabbitMqUser());
+                        cfgr.Password(Configuration.GetRabbitMqPassword());
+                    });
+
+                    cfg.UseDelayedMessageScheduler();
+                    cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter(false));
+                    cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
+                });
+
+               
+            });
+
+
+            services.AddPublishers();
+
             services.AddRouting(options => options.LowercaseUrls = true);
+
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -40,7 +64,6 @@ namespace Api
             services.AddSqlServerConnection(Configuration.GetSqlConnectionString());
 
             services.AddDependencyResolver();
-            services.AddMediatR();
             services.AddHttpClient();
             services.AddMediatR();
             services.AddHealthChecks();
@@ -61,24 +84,8 @@ namespace Api
                 c.IncludeXmlComments(apiPath);
                 c.IncludeXmlComments(applicationPath);
             });
-
-            services.AddMassTransit(ms =>
-            {
-                ms.AddDelayedMessageScheduler();
-                ms.SetKebabCaseEndpointNameFormatter();
-
-                ms.UsingRabbitMq((ctx, cfg) =>
-                {
-                    cfg.Host(Configuration.GetRabbitMqConnectionString());
-
-                    cfg.UseDelayedMessageScheduler();
-                    cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter(false));
-                    cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
-                });
-            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
