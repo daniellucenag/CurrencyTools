@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IPublisherApplication<TRequest>
+    public interface IPublisherApplication<TMessage> where TMessage : class
     {
-        Task Publish(TRequest request, Guid requestId, CancellationToken ctx);
+        Task Publish(TMessage request, Guid requestId, CancellationToken ctx);
     }
 }

@@ -1,8 +1,11 @@
 using Api.Filters;
 using Api.Middlewares;
+using Application;
+using Application.Currency;
 using CrossCutting.Assemblies;
 using CrossCutting.IoC;
 using CrossCutting.Util;
+using Infrastructure.Publisher;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +32,9 @@ namespace Api
             services.AddMassTransit(ms =>
             {
                 ms.AddDelayedMessageScheduler();
+
+                ms.AddConsumer<CreateCurrencyConsumer>();
+                
                 ms.SetKebabCaseEndpointNameFormatter();
 
                 ms.UsingRabbitMq((ctx, cfg) =>
@@ -38,13 +44,11 @@ namespace Api
                         cfgr.Username(Configuration.GetRabbitMqUser());
                         cfgr.Password(Configuration.GetRabbitMqPassword());
                     });
-
+              
                     cfg.UseDelayedMessageScheduler();
                     cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter(false));
                     cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
-                });
-
-               
+                });               
             });
 
 

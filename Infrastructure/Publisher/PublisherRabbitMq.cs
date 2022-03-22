@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Publisher
 {
-    public class PublisherRabbitMq<TRequest> : IPublisherApplication<TRequest>
+    public class PublisherRabbitMq<TMessage> : IPublisherApplication<TMessage> where TMessage : class
     {
-        private readonly ILogger<PublisherRabbitMq<TRequest>> logger;
+        private readonly ILogger<PublisherRabbitMq<TMessage>> logger;
         private readonly IPublishEndpoint publisher;
 
-        public PublisherRabbitMq(ILogger<PublisherRabbitMq<TRequest>> logger, IPublishEndpoint publisher)
+        public PublisherRabbitMq(ILogger<PublisherRabbitMq<TMessage>> logger, IPublishEndpoint publisher)
         {
             this.logger = logger;
             this.publisher = publisher;
         }
 
-        public async Task Publish(TRequest request, Guid requestId, CancellationToken ctx)
+        public async Task Publish(TMessage request, Guid requestId, CancellationToken ctx)
         {
             var requestTypeName = request?.GetType().FullName;
             var requestJson = JsonSerializer.Serialize(request);
