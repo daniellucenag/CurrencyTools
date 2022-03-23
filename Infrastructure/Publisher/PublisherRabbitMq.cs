@@ -1,6 +1,4 @@
-﻿using Application;
-using Application.Interfaces;
-using Domain.Core;
+﻿using Application.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using System;
@@ -30,6 +28,4 @@ namespace Infrastructure.Publisher
             logger.LogInformation("----- Handled Publiser Id: {publisherId} - {RequestName})", requestId, requestTypeName);
         }
     }
-
-
 }

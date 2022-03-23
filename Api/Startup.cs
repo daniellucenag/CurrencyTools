@@ -1,11 +1,9 @@
 using Api.Filters;
 using Api.Middlewares;
 using Application;
-using Application.Currency;
 using CrossCutting.Assemblies;
 using CrossCutting.IoC;
 using CrossCutting.Util;
-using Infrastructure.Publisher;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,7 +49,6 @@ namespace Api
                 });               
             });
 
-
             services.AddPublishers();
 
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -63,14 +60,19 @@ namespace Api
             });
             services.AddHttpContextAccessor();
             services.AddMvc(options => options.Filters.Add(new DefaultExceptionFilterAttribute()));
+
             services.AddAutoMapper(AssemblyUtil.GetCurrentAssemblies());
 
             services.AddSqlServerConnection(Configuration.GetSqlConnectionString());
 
             services.AddDependencyResolver();
+
             services.AddHttpClient();
+
             services.AddMediatR();
+
             services.AddHealthChecks();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -88,6 +90,8 @@ namespace Api
                 c.IncludeXmlComments(apiPath);
                 c.IncludeXmlComments(applicationPath);
             });
+
+            services.AddOptionsConfiguration().ConfigureMyOptions(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

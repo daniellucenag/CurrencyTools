@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Domain.Core
+namespace Application
 {
     public class IntegrationEvent<T> where T : struct
     {
