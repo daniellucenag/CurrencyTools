@@ -1,9 +1,6 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Application.Currency
+namespace Application.CurrencyContext
 {
     public class CreateCurrencyCommand : IRequest<ResultWrapper>
     {

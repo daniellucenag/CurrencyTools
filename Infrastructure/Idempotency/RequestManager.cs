@@ -1,9 +1,6 @@
 ﻿using Application.Interfaces;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Idempotency
@@ -14,7 +11,7 @@ namespace Infrastructure.Idempotency
         private readonly IdempotencyCacheOptions cacheOptions;
 
         public RequestManager(
-           // IDistributedCache distributedCache,
+            // IDistributedCache distributedCache,
             IOptionsMonitor<IdempotencyCacheOptions> cacheOptions)
         {
             //this.distributedCache = distributedCache;

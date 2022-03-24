@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application
+namespace Application.CurrencyContext
 {
     public class CurrencyRequestModel
     {
@@ -9,5 +9,8 @@ namespace Application
 
         [Required(ErrorMessage = "{0} can't be null", AllowEmptyStrings = false)]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "{0} can't be null", AllowEmptyStrings = false)]
+        public string CurrencyApiCode { get; set; }
     }
 }

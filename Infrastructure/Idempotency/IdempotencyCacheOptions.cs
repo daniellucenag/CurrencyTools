@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Infrastructure.Idempotency
+﻿namespace Infrastructure.Idempotency
 {
     public class IdempotencyCacheOptions
     {

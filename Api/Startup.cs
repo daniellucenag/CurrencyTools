@@ -1,6 +1,6 @@
 using Api.Filters;
 using Api.Middlewares;
-using Application;
+using Application.CurrencyContext;
 using CrossCutting.Assemblies;
 using CrossCutting.IoC;
 using CrossCutting.Util;
@@ -32,7 +32,7 @@ namespace Api
                 ms.AddDelayedMessageScheduler();
 
                 ms.AddConsumer<CreateCurrencyConsumer>();
-                
+
                 ms.SetKebabCaseEndpointNameFormatter();
 
                 ms.UsingRabbitMq((ctx, cfg) =>
@@ -42,14 +42,12 @@ namespace Api
                         cfgr.Username(Configuration.GetRabbitMqUser());
                         cfgr.Password(Configuration.GetRabbitMqPassword());
                     });
-              
+
                     cfg.UseDelayedMessageScheduler();
                     cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter(false));
                     cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
-                });               
+                });
             });
-
-            services.AddPublishers();
 
             services.AddRouting(options => options.LowercaseUrls = true);
 

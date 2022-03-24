@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Domain.Core.SeedWork;
-using Domain.Entities;
+using Domain.Entities.CurrencyContext;
 using Infrastructure.Utils;
 using System;
 using System.Data;
@@ -25,6 +25,7 @@ namespace Infrastructure.Repositories
             parameters.Add("@CurrencyId", item.Id, DbType.Guid);
             parameters.Add("@Name", item.Name, DbType.AnsiString);
             parameters.Add("@Description", item.Description, DbType.AnsiString);
+            parameters.Add("@CurrencyApiCode", item.CurrencyApiCode, DbType.AnsiString);
             parameters.Add("@CreatedAt", item.CreatedAt, DbType.DateTimeOffset);
             await Connection.ExecuteAsync(SqlQueries.SQL_INSERT_CURRENCY, parameters);
         }

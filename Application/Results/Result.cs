@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Application
 {
-  
+
     public class ResultWrapper
     {
         public int Status { get; protected set; }
@@ -32,7 +32,7 @@ namespace Application
         {
             return CreateResponse(StatusCodes.Status502BadGateway);
         }
-      
+
         public static ResultWrapper Ok<T>(T obj)
         {
             var response = CreateResponse(StatusCodes.Status200OK);
@@ -49,7 +49,7 @@ namespace Application
             response.Result.AddNotification(property, message);
             return response;
         }
-       
+
         public static ResultWrapper Error(IReadOnlyCollection<Notification> notifications)
         {
             var response = CreateResponse(StatusCodes.Status400BadRequest);
@@ -66,7 +66,7 @@ namespace Application
             response.Result.Status = StatusCodes.Status201Created;
             return response;
         }
-       
+
         public static ResultWrapper Accepted<T>(T obj)
         {
             var response = CreateResponse(StatusCodes.Status202Accepted);
@@ -75,11 +75,11 @@ namespace Application
             return response;
         }
     }
-       
+
     public class Result
-    {       
+    {
         public NotificationResult NotificationResult { get; } = new NotificationResult();
-               
+
         public IDictionary<string, string[]> Errors => GetErrors();
 
         private IDictionary<string, string[]> GetErrors()
@@ -92,7 +92,7 @@ namespace Application
         {
             return NotificationResult;
         }
-        
+
         public void AddNotifications(IReadOnlyCollection<Notification> notifications)
         {
             NotificationResult.AddNotifications(notifications);
@@ -102,14 +102,14 @@ namespace Application
         {
             NotificationResult.AddNotification(property, message);
         }
-               
+
         public int Status { get; set; }
     }
-       
+
     public class Result<T> : Result
-    {       
+    {
         public T Data { get; }
-        
+
         public Result(T data) => Data = data;
     }
 }

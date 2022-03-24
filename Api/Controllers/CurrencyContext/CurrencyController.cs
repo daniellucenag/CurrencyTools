@@ -1,4 +1,5 @@
 ﻿using Application;
+using Application.CurrencyContext;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Api.Controllers.Currency
+namespace Api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]

@@ -10,6 +10,7 @@
 				CurrencyId,
 				Name,
 				Description,
+				CurrencyApiCode,
 				CreatedAt
 			)
 			VALUES
@@ -17,6 +18,7 @@
 				@CurrencyId,
 				@Name,
 				@Description,
+				@CurrencyApiCode,
 				@CreatedAt
 			)
 		";

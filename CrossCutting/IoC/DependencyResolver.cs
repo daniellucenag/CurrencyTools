@@ -1,18 +1,17 @@
-﻿using MediatR;
-using Application;
-using Application.Currency;
+﻿using Application;
+using Application.Behaviors;
+using Application.CurrencyContext;
 using Application.Interfaces;
 using Domain.Core.SeedWork;
+using Domain.Entities.CurrencyContext;
 using Infrastructure.Behavior;
 using Infrastructure.Idempotency;
-using Infrastructure.Publisher;
 using Infrastructure.Repositories;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
-using Application.Behaviors;
-using Domain.Entities;
 
 namespace CrossCutting.IoC
 {
@@ -23,7 +22,7 @@ namespace CrossCutting.IoC
         {
             RegisterApplications(services);
             RegisterRepositories(services);
-            RegisterTyes(services);          
+            RegisterTyes(services);
         }
 
         private static void RegisterApplications(IServiceCollection services)
@@ -59,11 +58,8 @@ namespace CrossCutting.IoC
             services.AddScoped<IDbConnection>(prov => new SqlConnection(connectionString));
         }
 
-        public static IServiceCollection AddPublishers(this IServiceCollection services)
-        {
-            return services.AddScoped(typeof(IPublisherApplication<>), typeof(PublisherRabbitMq<>));
-        }
-            
+
+
         public static OptionsConfiguration AddOptionsConfiguration(this IServiceCollection services)
         {
             return new OptionsConfiguration(services);

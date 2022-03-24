@@ -1,8 +1,5 @@
-﻿using Application.Currency;
+﻿using Application.CurrencyContext;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Mapping
 {
@@ -10,10 +7,11 @@ namespace Application.Mapping
     {
         public CurrencyMap()
         {
-            CreateMap<ICreateCurrencyIntegrationEvent, Domain.Entities.Currency>()
-                .ConstructUsing(src => new Domain.Entities.Currency(
+            CreateMap<ICreateCurrencyIntegrationEvent, Domain.Entities.CurrencyContext.Currency>()
+                .ConstructUsing(src => new Domain.Entities.CurrencyContext.Currency(
                     src.Name,
                     src.Description,
+                    src.CurrencyApiCode,
                     src.Id));
         }
     }
