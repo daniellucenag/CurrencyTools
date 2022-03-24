@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Domain.Core.SeedWork;
-using Domain.Entities.Currency;
+using Domain.Entities;
 using Infrastructure.Utils;
 using System;
 using System.Data;

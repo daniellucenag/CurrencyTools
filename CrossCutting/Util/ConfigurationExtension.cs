@@ -8,7 +8,7 @@ namespace CrossCutting.Util
     public static class ConfigurationExtension
     {
         public static string GetSqlConnectionString(this IConfiguration config) => Format(config.GetValue<string>("SQL_SERVER_CONNECTION"),
-                                                                                          config.GetValue<string>("DB_CURRENCYTOOLS_DATABASE"),
+                                                                                          config.GetValue<string>("DB_CURRENCYTOLLS_DATABASE"),
                                                                                           config.GetValue<string>("DB_CURRENCYTOOLS_USER"),
                                                                                           config.GetValue<string>("DB_CURRENCYTOOLS_PASSWORD"));
 

@@ -2,7 +2,7 @@
 using Flunt.Validations;
 using System;
 
-namespace Domain.Entities.Currency
+namespace Domain.Entities
 {
     public class Currency : RootEntity, IAggregateRoot
     {

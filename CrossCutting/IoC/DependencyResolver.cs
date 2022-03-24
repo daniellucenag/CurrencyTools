@@ -3,7 +3,6 @@ using Application;
 using Application.Currency;
 using Application.Interfaces;
 using Domain.Core.SeedWork;
-using Domain.Entities.Currency;
 using Infrastructure.Behavior;
 using Infrastructure.Idempotency;
 using Infrastructure.Publisher;
@@ -13,6 +12,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
 using Application.Behaviors;
+using Domain.Entities;
 
 namespace CrossCutting.IoC
 {
