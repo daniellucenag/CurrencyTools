@@ -34,6 +34,8 @@ namespace Application.CurrencyContext
 
             await currencyRepository.Add(currency);
 
+            currency.CurrencyCreatedEvent();
+
             return ResultWrapper.Created(currency);
         }
 
