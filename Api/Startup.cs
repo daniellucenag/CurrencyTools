@@ -65,6 +65,8 @@ namespace Api
 
             services.AddDependencyResolver();
 
+            services.AddEventHandlers();
+
             services.AddHttpClient();
 
             services.AddMediatR();

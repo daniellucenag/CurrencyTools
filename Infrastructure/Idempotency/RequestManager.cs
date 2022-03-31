@@ -10,6 +10,8 @@ namespace Infrastructure.Idempotency
         //private readonly IDistributedCache distributedCache;
         private readonly IdempotencyCacheOptions cacheOptions;
 
+        //TODO: IMPLEMENTAR CACHE PARA REQUISIÇÕES
+
         public RequestManager(
             // IDistributedCache distributedCache,
             IOptionsMonitor<IdempotencyCacheOptions> cacheOptions)

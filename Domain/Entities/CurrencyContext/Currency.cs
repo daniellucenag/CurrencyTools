@@ -23,6 +23,8 @@ namespace Domain.Entities.CurrencyContext
               .IsNotNullOrEmpty(Name, nameof(Name), $"{nameof(Name)} can't be null or empty")
               .IsNotNullOrEmpty(Description, nameof(Description), $"{nameof(Description)} can't be null or empty")
             );
+
+            CurrencyCreatedEvent();
         }
 
         protected Currency()

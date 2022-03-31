@@ -4,10 +4,13 @@ using Application.CurrencyContext;
 using Application.Interfaces;
 using Domain.Core.SeedWork;
 using Domain.Entities.CurrencyContext;
+using Domain.Events;
 using Infrastructure.Behavior;
 using Infrastructure.Idempotency;
+using Infrastructure.Publisher;
 using Infrastructure.Repositories;
 using MediatR;
+using MediatR.Registration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 using System.Data.SqlClient;
@@ -32,6 +35,7 @@ namespace CrossCutting.IoC
 
         private static void RegisterRepositories(IServiceCollection services)
         {
+            services.AddScoped<IDomainEventHandler, DomainEventHandler>();
             services.AddScoped<IRepository<Currency>, CurrencyRepository>();
         }
 
@@ -58,11 +62,18 @@ namespace CrossCutting.IoC
             services.AddScoped<IDbConnection>(prov => new SqlConnection(connectionString));
         }
 
-
-
         public static OptionsConfiguration AddOptionsConfiguration(this IServiceCollection services)
         {
             return new OptionsConfiguration(services);
+        }
+
+        public static void AddEventHandlers(this IServiceCollection services)
+        {
+            var serviceConfig = new MediatRServiceConfiguration();
+
+            ServiceRegistrar.AddRequiredServices(services, serviceConfig);
+
+            services.AddTransient(typeof(INotificationHandler<CurrencyCreatedEvent>), typeof(CurrentCreatedEventHandler));
         }
     }
 }

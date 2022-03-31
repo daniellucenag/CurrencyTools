@@ -1,10 +1,12 @@
 ﻿using Dapper;
 using Domain.Core.SeedWork;
 using Domain.Entities.CurrencyContext;
+using Infrastructure.Publisher;
 using Infrastructure.Utils;
 using System;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
@@ -14,9 +16,12 @@ namespace Infrastructure.Repositories
     {
         private readonly IDbConnection Connection;
 
-        public CurrencyRepository(IDbConnection connection)
+        private readonly IDomainEventHandler DomainEvent;
+
+        public CurrencyRepository(IDbConnection connection, IDomainEventHandler domainEvent)
         {
             Connection = connection ?? throw new ArgumentNullException(nameof(connection));
+            DomainEvent = domainEvent;
         }
 
         public async Task Add(Currency item)
@@ -28,6 +33,10 @@ namespace Infrastructure.Repositories
             parameters.Add("@CurrencyApiCode", item.CurrencyApiCode, DbType.AnsiString);
             parameters.Add("@CreatedAt", item.CreatedAt, DbType.DateTimeOffset);
             await Connection.ExecuteAsync(SqlQueries.SQL_INSERT_CURRENCY, parameters);
+
+            DomainEvent.AddDomainEvent(item.DomainEvents.ToArray());
+            if (DomainEvent != null)
+                await DomainEvent.Handler();
         }
     }
 }
